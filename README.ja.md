@@ -2,7 +2,7 @@
 
 PixiJS 公式サイトのトップページアニメーション効果を再現したプロジェクト。TypeScript + PixiJS v8 + Vite で構築されています。
 
-[English](./README.en.md) | 日本語 | [中文](./README.md)
+[English](./README.en.md) | 日本語(./README.ja.md) | [中文](./README.md)
 
 ## 🌌 プロジェクト概要
 

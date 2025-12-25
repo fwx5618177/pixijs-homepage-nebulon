@@ -2,7 +2,7 @@
 
 A recreation of the classic PixiJS homepage animation effect, featuring a stunning cosmic scene with liquid blob mask transitions between sky clouds and space nebulae.
 
-English | 日本語 (Japanese) | [中文](./README.md)
+English | [日本語](README.ja.md) | [中文](./README.md)
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![PixiJS](https://img.shields.io/badge/PixiJS-v8-ff69b4.svg)
