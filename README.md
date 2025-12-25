@@ -1,146 +1,150 @@
 # Nebulon
 
-A recreation of the classic PixiJS homepage animation effect, featuring a stunning cosmic scene with liquid blob mask transitions between sky clouds and space nebulae.
+一个复刻 PixiJS 官网首页动画效果的项目。使用 TypeScript + PixiJS v8 + Vite 构建。
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![PixiJS](https://img.shields.io/badge/PixiJS-v8-ff69b4.svg)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue.svg)
+[English](./README.en.md) | 日本語 (Japanese) | 中文
 
-## 🌌 Overview
+## 🌌 项目预览
 
-Nebulon faithfully recreates the iconic animation from the PixiJS homepage. It showcases:
+Nebulon 复刻了 PixiJS 官方网站的标志性首页动画 —— 一个结合了天空云层场景和太空星云场景的视觉效果，通过液体 blob 遮罩实现两个场景之间的平滑过渡。
 
-- **Sky Layer**: A 3D parallax cloud flight effect through a bright sky
-- **Space Layer**: A cosmic nebula scene with rotating star clouds
-- **Liquid Mask Transition**: An organic blob-based mask that reveals the space layer through the sky layer
-- **Interactive Mouse Tracking**: The liquid blob follows mouse movement for an engaging experience
+## ✨ 功能特性
 
-## 🏗️ Architecture
+- **双层场景**: 天空云层 (Clouds) 和太空星云 (Stars) 两个独立的 3D 视差场景
+- **液体遮罩效果**: 使用动态 blob 精灵创建流体般的场景过渡效果
+- **伪 3D 渲染**: 使用透视投影模拟 3D 空间中的云朵飞行
+- **弹簧物理**: 使用双轴弹簧物理模拟实现平滑的跟随动画
+- **交互式控制**: 鼠标/触摸移动控制遮罩位置，点击切换开启/关闭状态
 
-### Project Structure
+## 📁 项目结构
 
 ```
 nebulon/
 ├── src/
 │   ├── core/
-│   │   └── Ticker.ts          # Animation loop manager with deltaTime
+│   │   └── Ticker.ts          # 动画循环管理器
 │   ├── filters/
-│   │   └── SuperFilter.ts     # Custom mask-based reveal filter (WebGL2)
+│   │   └── SuperFilter.ts     # 基于遮罩的揭示效果滤镜
 │   ├── screens/
-│   │   ├── MainScreen.ts      # Main scene compositor
-│   │   ├── Clouds.ts          # Sky cloud layer with 3D projection
-│   │   ├── Stars.ts           # Space nebula layer
-│   │   ├── Cloud.ts           # Individual cloud sprite with 3D properties
-│   │   └── MaskyMask.ts       # Liquid blob mask renderer
+│   │   ├── Cloud.ts           # 带有 3D 定位能力的精灵
+│   │   ├── Clouds.ts          # 天空云层场景
+│   │   ├── Stars.ts           # 太空星云场景
+│   │   ├── MaskyMask.ts       # 液体 blob 遮罩
+│   │   └── MainScreen.ts      # 主场景组合器
 │   ├── utils/
-│   │   ├── Mini3d.ts          # Pseudo-3D rendering system
-│   │   ├── Math2.ts           # Math utility functions
-│   │   └── DoubleSpring.ts    # 2D spring physics simulation
-│   ├── NebulonApp.ts          # Main application class
-│   ├── main.ts                # Entry point
-│   └── index.ts               # Module exports
+│   │   ├── DoubleSpring.ts    # 2D 弹簧物理模拟
+│   │   ├── Math2.ts           # 数学工具函数
+│   │   └── Mini3d.ts          # 伪 3D 渲染系统
+│   ├── index.ts               # 导出入口
+│   ├── main.ts                # 应用入口
+│   └── NebulonApp.ts          # 主应用程序类
 ├── public/
-│   └── assets/img/            # Image assets (clouds, nebulae, blob)
-├── samples/                   # Original nebulon.js demo
-└── package.json
+│   └── assets/img/            # 图片资源
+├── samples/                   # 原始 JS 示例
+├── index.html
+├── package.json
+├── tsconfig.json
+└── vite.config.ts
 ```
 
-### Design Philosophy
+## 🏗️ 架构设计
 
-#### Layer Composition
-The visual effect is achieved through three main layers:
+### 核心模块
 
-1. **Clouds (Bottom)**: A bright sky with parallax cloud sprites flying toward the camera
-2. **Stars (Middle)**: A dark space scene with rotating nebula clouds, filtered through SuperFilter
-3. **MaskyMask (Mask Source)**: 50 animated blobs rendered to a RenderTexture, used as a mask source
+#### 1. Ticker (动画循环)
+管理 `requestAnimationFrame` 循环和 `deltaTime` 计算，确保动画在不同帧率下保持一致。
 
-#### The SuperFilter Magic
-The key to the liquid reveal effect lies in `SuperFilter.ts`:
-- Samples from the MaskyMask's RenderTexture
-- Calculates mask strength from red channel × alpha × 5.0
-- Applies subtle distortion offset based on inverse strength
-- Multiplies final color by strength for smooth fade transitions
+#### 2. Mini3d (伪 3D 系统)
+使用透视投影公式 `scale = focalLength / (focalLength + z)` 将 3D 坐标投影到 2D，支持相机旋转和移动。
 
-#### Spring Physics
-The `DoubleSpring` class provides smooth, organic motion for:
-- Blob animations responding to position changes
-- Mouse follower with natural easing
-- Springy transitions between auto and manual modes
+#### 3. MaskyMask (液体遮罩)
+- 创建 50 个 blob 精灵，使用弹簧物理跟随目标位置
+- 渲染到 1900×1200 的 RenderTexture
+- blob 使用正弦缩放（可为负值产生翻转效果）
 
-## 🚀 Getting Started
+#### 4. SuperFilter (揭示滤镜)
+- 从遮罩纹理采样，计算强度 `strength = r * a * 5.0`
+- 根据强度应用轻微位移偏移
+- 控制底层内容的可见性
 
-### Prerequisites
+### 渲染层次
 
-- Node.js 18+ 
-- pnpm (recommended) or npm
+```
+MainScreen
+├── Clouds (底层 - 天空场景)
+├── Stars (中层 - 太空场景，应用 SuperFilter)
+└── MaskyMask (renderable=false, 仅提供纹理)
+```
 
-### Installation
+## 🚀 快速开始
+
+### 环境要求
+
+- Node.js >= 18
+- pnpm (推荐) 或 npm
+
+### 安装依赖
 
 ```bash
-# Clone the repository
-git clone <repository-url>
-cd nebulon
-
-# Install dependencies
 pnpm install
 ```
 
-### Development
+### 开发模式
 
 ```bash
-# Start development server
 pnpm dev
 ```
 
-Open http://localhost:5173 in your browser.
+访问 http://localhost:5173 查看效果。
 
-### Build for Production
+### 构建生产版本
 
 ```bash
-# Build optimized bundle
 pnpm build
+```
 
-# Preview production build
+构建产物在 `dist/` 目录下。
+
+### 预览构建结果
+
+```bash
 pnpm preview
 ```
 
-### Run Original Sample
+### 运行原始示例
 
 ```bash
-# Run the original nebulon.js sample using live-server
 pnpm sample
 ```
 
-## 🎮 Interaction
+在浏览器中打开 `samples/index.html` 查看原始 JavaScript 版本的效果。
 
-- **Mouse Move**: The liquid blob follows your cursor
-- **Click**: Toggles the mask open/close state
-- **Auto Mode**: After 60 frames of inactivity, the blob enters a gentle automatic animation
+## 🎮 交互说明
 
-## 🛠️ Technical Details
+- **鼠标/触摸移动**: 控制液体遮罩的中心位置
+- **点击/触摸**: 切换遮罩的开启/关闭状态
+- **自动模式**: 60 帧无操作后自动进入轻柔摇摆动画
 
-### PixiJS v8 Compatibility
-This project has been updated for PixiJS v8 with:
-- Modern `Filter` API with `GlProgram.from()`
-- `TextureMatrix` for proper UV coordinate mapping
-- `FilterSystem.calculateSpriteMatrix()` for matrix calculations
-- GLSL 300 es shaders (WebGL2)
+## 🔧 技术栈
 
-### Performance Considerations
-- 50 blob sprites with spring physics
-- 50 sky clouds + 30 space clouds with 3D projection
-- RenderTexture for efficient mask composition
-- Depth sorting for proper 3D layering
+- **PixiJS v8**: WebGL/WebGPU 2D 渲染引擎
+- **TypeScript**: 类型安全的开发体验
+- **Vite**: 快速的开发构建工具
 
-## 📄 License
+## 📝 从原始代码移植
 
-MIT License - feel free to use this code for your own projects!
+本项目是从 PixiJS 官网的 `nebulon.js` 忠实移植而来。主要改动包括：
 
-## 🙏 Credits
+1. **API 升级**: 从旧版 PIXI API 迁移到 v8 的新 API
+2. **TypeScript 重写**: 添加完整的类型定义
+3. **滤镜系统重写**: 使用 v8 的 `TextureMatrix` 和 `calculateSpriteMatrix`
+4. **着色器升级**: 从 GLSL ES 1.0 升级到 GLSL ES 3.0
 
-- Original Nebulon animation by [PixiJS Team](https://pixijs.com)
-- Recreation and TypeScript port for educational purposes
+## 📄 许可证
 
----
+MIT License
 
-For the Chinese version of this documentation, see [README.zh-CN.md](./README.zh-CN.md)
+## 🙏 致谢
+
+- [PixiJS](https://pixijs.com/) - 原始动画效果来源
+- 原始代码由 PixiJS 团队创建
