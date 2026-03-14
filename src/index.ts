@@ -18,4 +18,4 @@ export { MainScreen } from "./screens/MainScreen";
 export { SuperFilter } from "./filters/SuperFilter";
 
 // App
-export { NebulonApp } from "./NebulonApp";
+export { PixiHomepageApp } from "./PixiHomepageApp";

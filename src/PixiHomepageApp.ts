@@ -3,12 +3,12 @@ import { MainScreen } from "./screens/MainScreen";
 import { Ticker } from "./core/Ticker";
 
 /**
- * NebulonApp - 主应用程序类
+ * PixiHomepageApp - 主应用程序类
  * 初始化 PixiJS 应用并管理主场景
  *
  * 原始代码来自 nebulon.js 中的 APP_root
  */
-export class NebulonApp {
+export class PixiHomepageApp {
   /** PixiJS 应用实例 */
   public app: PIXI.Application;
 

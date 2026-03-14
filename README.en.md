@@ -1,4 +1,4 @@
-# Nebulon
+# PixiJS Homepage Animation
 
 A recreation of the classic PixiJS homepage animation effect, featuring a stunning cosmic scene with liquid blob mask transitions between sky clouds and space nebulae.
 
@@ -10,7 +10,7 @@ English | [日本語](README.ja.md) | [中文](./README.md)
 
 ## 🌌 Overview
 
-Nebulon faithfully recreates the iconic animation from the PixiJS homepage. It showcases:
+pixijs-homepage-animation faithfully recreates the iconic animation from the PixiJS homepage. It showcases:
 
 - **Sky Layer**: A 3D parallax cloud flight effect through a bright sky
 - **Space Layer**: A cosmic nebula scene with rotating star clouds
@@ -22,7 +22,7 @@ Nebulon faithfully recreates the iconic animation from the PixiJS homepage. It s
 ### Project Structure
 
 ```
-nebulon/
+pixijs-homepage-animation/
 ├── src/
 │   ├── core/
 │   │   └── Ticker.ts          # Animation loop manager with deltaTime
@@ -38,7 +38,7 @@ nebulon/
 │   │   ├── Mini3d.ts          # Pseudo-3D rendering system
 │   │   ├── Math2.ts           # Math utility functions
 │   │   └── DoubleSpring.ts    # 2D spring physics simulation
-│   ├── NebulonApp.ts          # Main application class
+│   ├── PixiHomepageApp.ts     # Main application class
 │   ├── main.ts                # Entry point
 │   └── index.ts               # Module exports
 ├── public/
@@ -140,5 +140,5 @@ MIT License - feel free to use this code for your own projects!
 
 ## 🙏 Credits
 
-- Original Nebulon animation by [PixiJS Team](https://pixijs.com)
+- Original PixiJS homepage animation by [PixiJS Team](https://pixijs.com)
 - Recreation and TypeScript port for educational purposes

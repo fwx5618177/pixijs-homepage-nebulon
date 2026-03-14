@@ -1,5 +1,5 @@
 {
-  "name": "nebulon",
+  "name": "pixijs-homepage-animation",
   "version": "1.0.0",
   "description": "A recreation of the PixiJS homepage animation - liquid blob mask transitions between sky clouds and space nebulae",
   "type": "module",
@@ -13,7 +13,7 @@
     "pixijs",
     "animation",
     "canvas",
-    "nebulon",
+    "pixijs-homepage-animation",
     "webgl"
   ],
   "author": "",

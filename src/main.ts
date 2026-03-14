@@ -1,4 +1,4 @@
-import { NebulonApp } from "./NebulonApp";
+import { PixiHomepageApp } from "./PixiHomepageApp";
 
 /**
  * 主入口文件 - PixiJS 首页动画
@@ -6,7 +6,7 @@ import { NebulonApp } from "./NebulonApp";
  */
 async function main(): Promise<void> {
   // 创建应用实例
-  const app = new NebulonApp();
+  const app = new PixiHomepageApp();
 
   // 获取容器元素
   const container = document.getElementById("container");
@@ -39,7 +39,7 @@ async function main(): Promise<void> {
   });
 
   // 将 app 暴露到 window 用于调试
-  (window as unknown as { app: NebulonApp }).app = app;
+  (window as unknown as { app: PixiHomepageApp }).app = app;
 }
 
 // 当 DOM 准备好时启动应用
